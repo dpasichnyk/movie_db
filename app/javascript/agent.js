@@ -47,10 +47,18 @@ const Movies = {
     get: slug =>
         requests.get(`/movies/${slug}`),
     create: movie =>
-        requests.post('/movies', { movie })
+        requests.post('/movies', { movie }),
+    update: movie =>
+        requests.put(`/movies/${movie.slug}`, { article: movie }),
+};
+
+const Ratings = {
+    create: (movieSlug, value) =>
+        requests.post('/ratings', { movie_slug: movieSlug, value: value })
 };
 
 export default {
     Movies,
     Categories,
+    Ratings
 };

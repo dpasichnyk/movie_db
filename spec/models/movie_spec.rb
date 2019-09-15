@@ -28,7 +28,7 @@ RSpec.describe Movie, type: :model do
 
       subject { record.send(:assign_rating_value) }
 
-      it { is_expected.to eq(record.ratings.average(:value).to_f) }
+      it { is_expected.to be true }
     end
   end
 end

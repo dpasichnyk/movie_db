@@ -61,6 +61,20 @@ export class MoviesStore {
     @action setPage(page) {
         this.currentPage = page;
     }
+
+    @action createRating(slug, value) {
+        return agent.Ratings.create(slug, value)
+            .then(() => this.loadMovie(slug))
+            .finally(action(() => { this.isLoading = false; }));
+    }
+
+    @action updateMovie(data) {
+        return agent.Movie.update(data)
+            .then(({ movie }) => {
+                this.moviesRegistry.set(movie.slug, movie);
+                return movie;
+            })
+    }
 }
 
 export default new MoviesStore();

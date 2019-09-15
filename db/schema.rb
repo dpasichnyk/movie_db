@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2019_09_07_174446) do
 
   create_table "movies", force: :cascade do |t|
     t.bigint "user_id"
-    t.decimal "rating_value", precision: 2, scale: 1
+    t.decimal "rating_value", precision: 2, scale: 1, default: "0.0"
     t.string "slug"
     t.text "title"
     t.text "text"

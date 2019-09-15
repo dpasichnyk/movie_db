@@ -9,6 +9,7 @@ RSpec.describe Rating, type: :model do
   end
 
   describe 'validations' do
+    it { is_expected.to validate_uniqueness_of(:movie_id).scoped_to(:user_id) }
     it { is_expected.to validate_presence_of(:value) }
     it { is_expected.to validate_inclusion_of(:value).in_array((1..5).to_a) }
   end

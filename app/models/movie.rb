@@ -2,7 +2,7 @@ class Movie < ApplicationRecord
   include PgSearch::Model
   extend FriendlyId
 
-  friendly_id :title, use: :slugged
+  friendly_id :title, use: [:finders, :slugged]
 
   pg_search_scope :text_search, against: { title: 'A', text: 'B' }, associated_against: {
     categories: {
@@ -13,7 +13,7 @@ class Movie < ApplicationRecord
 
   self.per_page = 10
 
-  before_validation :assign_rating_value
+  after_touch :assign_rating_value
 
   belongs_to :user
   has_many :ratings
@@ -42,7 +42,7 @@ class Movie < ApplicationRecord
     ratings = self.ratings.pluck(:value)
     value = (ratings.sum.to_f / ratings.size) if ratings.present?
 
-    self.rating_value = value
+    update(rating_value: value)
   end
 
   def slug_candidates
