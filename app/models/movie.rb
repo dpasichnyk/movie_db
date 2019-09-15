@@ -1,6 +1,15 @@
 class Movie < ApplicationRecord
+  include PgSearch::Model
   extend FriendlyId
+
   friendly_id :title, use: :slugged
+
+  pg_search_scope :text_search, against: { title: 'A', text: 'B' }, associated_against: {
+    categories: {
+      name: 'A',
+      text: 'B'
+    }
+  }
 
   self.per_page = 10
 
@@ -14,6 +23,14 @@ class Movie < ApplicationRecord
   validates :rating_value, inclusion: { in: 0..5 }
   validates :text, length: { minimum: 200 }, presence: true
   validates :title, length: { in: 3..250 }, presence: true
+
+  def self.search(query)
+    if query.present?
+      text_search(query)
+    else
+      order(created_at: :desc)
+    end
+  end
 
   private
 

@@ -7,6 +7,7 @@ export class MoviesStore {
     @observable moviesRegistry = observable.map();
     @observable currentPage = 1;
     @observable totalPagesCount = 1;
+    @observable searchQuery = "";
 
     @computed get movies() {
         return Object.values(this.moviesRegistry.toJSON());
@@ -14,6 +15,8 @@ export class MoviesStore {
 
     clear() {
         this.moviesRegistry.clear();
+        this.totalPagesCount = 1;
+        this.currentPage = 1;
     }
 
     getMovie(slug) {
@@ -21,7 +24,7 @@ export class MoviesStore {
     }
 
     $req() {
-        return agent.Movies.all(this.currentPage);
+        return agent.Movies.all(this.currentPage, this.searchQuery);
     }
 
     @action loadMovie(slug) {
@@ -48,6 +51,11 @@ export class MoviesStore {
                 this.totalPagesCount = pages;
             }))
             .finally(action(() => { this.isLoading = false; }));
+    }
+
+    @action setSearchQuery(query) {
+        this.clear();
+        this.searchQuery = query;
     }
 
     @action setPage(page) {

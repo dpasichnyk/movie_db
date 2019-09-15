@@ -1,6 +1,8 @@
 import React from 'react';
 
 const Pagination = props => {
+  if (props.totalPagesCount < 2) return null;
+
   const range = [];
 
   for (let i = 0; i < props.totalPagesCount; ++i) {

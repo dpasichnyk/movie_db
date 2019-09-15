@@ -15,6 +15,7 @@ const handleErrors = err => {
 const responseBody = res => res.body;
 
 const pagination = (p) => `page=${p}`;
+const search = (sq) => sq.length > 0 ? `search=${sq}` : '';
 
 const requests = {
     del: url =>
@@ -39,8 +40,8 @@ const Categories = {
 };
 
 const Movies = {
-    all: (page) =>
-        requests.get(`/movies?${pagination(page)}`),
+    all: (page, searchQuery) =>
+        requests.get(`/movies?${pagination(page)}&${search(searchQuery)}`),
     del: slug =>
         requests.del(`/movies/${slug}`),
     get: slug =>

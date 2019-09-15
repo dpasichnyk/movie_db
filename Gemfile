@@ -12,6 +12,7 @@ gem 'puma', '~> 3.11'
 # UI frameworks
 gem 'bootstrap', '~> 4.3', '>= 4.3.1'
 gem 'react-rails', '~> 2.6'
+gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.5'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -32,6 +33,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'friendly_id', '~> 5.2.4'
+gem 'pg_search'
 gem 'rack-cors'
 gem 'will_paginate', '~> 3.1', '>= 3.1.8'
 
