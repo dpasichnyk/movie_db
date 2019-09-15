@@ -14,6 +14,8 @@ const handleErrors = err => {
 
 const responseBody = res => res.body;
 
+const pagination = (p) => `page=${p}`;
+
 const requests = {
     del: url =>
         superagent
@@ -37,8 +39,8 @@ const Categories = {
 };
 
 const Movies = {
-    all: () =>
-        requests.get(`/movies`),
+    all: (page) =>
+        requests.get(`/movies?${pagination(page)}`),
     del: slug =>
         requests.del(`/movies/${slug}`),
     get: slug =>

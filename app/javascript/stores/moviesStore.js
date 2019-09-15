@@ -5,6 +5,8 @@ export class MoviesStore {
 
     @observable isLoading = false;
     @observable moviesRegistry = observable.map();
+    @observable currentPage = 1;
+    @observable totalPagesCount = 1;
 
     @computed get movies() {
         return Object.values(this.moviesRegistry.toJSON());
@@ -19,10 +21,10 @@ export class MoviesStore {
     }
 
     $req() {
-        return agent.Movies.all();
+        return agent.Movies.all(this.currentPage);
     }
 
-    @action loadMovie(slug, { acceptCached = false } = {}) {
+    @action loadMovie(slug) {
         const movie = this.getMovie(slug);
         if (movie) return Promise.resolve(movie);
 
@@ -39,11 +41,17 @@ export class MoviesStore {
         this.isLoading = true;
 
         return this.$req()
-            .then(action(({ movies, moviesCount }) => {
+            .then(action(({ movies, moviesCount, pages, page }) => {
                 this.moviesRegistry.clear();
                 movies.forEach(movie => this.moviesRegistry.set(movie.slug, movie));
+                this.currentPage = page;
+                this.totalPagesCount = pages;
             }))
             .finally(action(() => { this.isLoading = false; }));
+    }
+
+    @action setPage(page) {
+        this.currentPage = page;
     }
 }
 

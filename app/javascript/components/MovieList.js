@@ -1,5 +1,7 @@
-import MoviePreview from './MoviePreview';
 import LoadingSpinner from './LoadingSpinner';
+import MoviePreview from './MoviePreview';
+import Pagination from './Pagination';
+
 import React from 'react';
 
 const MovieList = props => {
@@ -26,6 +28,8 @@ const MovieList = props => {
                     );
                 })
             }
+
+            <Pagination currentPage={props.currentPage} totalPagesCount={props.totalPagesCount} onSetPage={props.onSetPage}  />
         </div>
     );
 };

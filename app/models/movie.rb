@@ -2,6 +2,8 @@ class Movie < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: :slugged
 
+  self.per_page = 10
+
   before_validation :assign_rating_value
 
   belongs_to :user
