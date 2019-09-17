@@ -8,6 +8,13 @@ class Category < ApplicationRecord
   validates :slug, uniqueness: true, presence: true
   validates :text, length: { in: 20..2000 }, presence: true
 
+  scope :with_movies_counts, -> do
+    joins(:movies)
+    .select('categories.*, count(movies.id) as movies_count')
+    .group(:id)
+    .order(movies_count: :desc, created_at: :desc)
+  end
+
   def slug_candidates
     [:name]
   end

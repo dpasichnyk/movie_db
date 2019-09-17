@@ -9,6 +9,11 @@ FactoryBot.define do
     first_name { "John" }
     last_name  { "Doe" }
 
+    after :build do |user|
+      user.password ||= "goodPassword123"
+      user.password_confirmation ||= "goodPassword123"
+    end
+
     trait :with_movies do
       after :create do |user|
         user.movies << create_list(:movie, 3)

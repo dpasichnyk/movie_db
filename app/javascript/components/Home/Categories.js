@@ -13,7 +13,7 @@ const Categories = props => {
                         return (
                             <li className="nav-item" key={category.slug}>
                                 <Link to={{ pathname: '/' }} key={category.id}>
-                                    {category.name}
+                                    {category.name} ({category.movies_count})
                                 </Link>
                             </li>
                         );

@@ -1,1 +1,1 @@
-json.categories @categories, partial: 'category', as: :category
+json.categories @categories, :id, :name, :slug, :text, :movies_count

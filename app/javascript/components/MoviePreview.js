@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import Rating from 'react-rating';
 
-@inject('moviesStore')
+@inject('moviesStore', 'userStore')
 @observer
 export default class MoviePreview extends React.Component {
 
@@ -26,7 +26,13 @@ export default class MoviePreview extends React.Component {
 
                         <div className='col col-md-4'>
                             <div className='well well-sm pull-right'>
-                                <Rating initialRating={movie.rating_value} onChange={this.onRatingChange.bind(this, movie.slug)} />
+                                <Rating
+                                    initialRating={movie.rating_value}
+                                    onChange={this.onRatingChange.bind(this, movie.slug)}
+                                    readonly={!this.props.userStore.currentUser}
+                                    emptySymbol='fa fa-star-o regular'
+                                    fullSymbol='fa fa-star solid'
+                                />
                                 <pre>{new Date(movie.created_at).toDateString()}, by <b>{movie.user.name}</b></pre>
                             </div>
                         </div>

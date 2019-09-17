@@ -5,10 +5,13 @@ import { Provider } from 'mobx-react';
 import App from './App';
 import promiseFinally from 'promise.prototype.finally';
 
-import moviesStore from '../stores/moviesStore';
+import authStore from '../stores/authStore';
 import commonStore from '../stores/commonStore';
+import errorStore from '../stores/errorStore';
+import moviesStore from '../stores/moviesStore';
+import userStore from '../stores/userStore';
 
-const stores = { moviesStore, commonStore };
+const stores = { authStore, commonStore, errorStore, moviesStore, userStore };
 
 promiseFinally.shim();
 

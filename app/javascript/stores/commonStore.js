@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, reaction } from 'mobx';
 import agent from '../agent';
 
 class CommonStore {
@@ -8,6 +8,21 @@ class CommonStore {
 
     @observable categoriesRegistry = observable.map();
     @observable isLoadingCategories = false;
+
+    @observable token = window.localStorage.getItem('jwt');
+
+    constructor() {
+        reaction(
+            () => this.token,
+            token => {
+                if (token) {
+                    window.localStorage.setItem('jwt', token);
+                } else {
+                    window.localStorage.removeItem('jwt');
+                }
+            }
+        );
+    }
 
     @computed get categories() {
         return Object.values(this.categoriesRegistry.toJSON());
@@ -21,6 +36,10 @@ class CommonStore {
                 categories.forEach(category => this.categoriesRegistry.set(category.slug, category));
             }))
             .finally(action(() => { this.isLoadingCategories = false; }))
+    }
+
+    @action setToken(token) {
+        this.token = token;
     }
 
     @action setAppLoaded() {
