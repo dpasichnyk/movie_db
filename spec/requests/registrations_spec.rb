@@ -27,7 +27,7 @@ RSpec.describe 'POST /signup', type: :request do
     end
 
     it 'returns validation errors' do
-      expect(JSON.parse(response.body)['errors'].first['title']).to eq('Bad Request')
+      expect(JSON.parse(response.body)['errors']).to eq(['Email has already been taken'])
     end
   end
 end

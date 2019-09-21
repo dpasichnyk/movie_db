@@ -65,6 +65,11 @@ export class MoviesStore {
     @action createRating(slug, value) {
         return agent.Ratings.create(slug, value)
             .then(() => this.loadMovie(slug))
+            .catch(action(err => {
+                if (err.status === 409) {
+                    this.loadMovies();
+                }
+            }))
             .finally(action(() => { this.isLoading = false; }));
     }
 

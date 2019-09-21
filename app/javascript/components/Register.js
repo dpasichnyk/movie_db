@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
+import ErrorList from "./ErrorList";
+
 @inject('authStore')
 @observer
 export default class Register extends React.Component {
@@ -38,6 +40,7 @@ export default class Register extends React.Component {
                 </Link>
               </p>
 
+              <ErrorList errors={errors} />
               <form onSubmit={this.handleSubmitForm}>
                   <fieldset className="form-group">
                     <input

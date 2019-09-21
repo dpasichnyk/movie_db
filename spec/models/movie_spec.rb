@@ -13,10 +13,8 @@ RSpec.describe Movie, type: :model do
     it { is_expected.to validate_presence_of(:slug) }
     it { is_expected.to validate_uniqueness_of(:slug) }
 
-    it { is_expected.to validate_presence_of(:text) }
     it { is_expected.to validate_length_of(:text).is_at_least(200) }
 
-    it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_length_of(:title).is_at_least(3).is_at_most(250) }
   end
 

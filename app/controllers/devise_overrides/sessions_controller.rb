@@ -4,7 +4,9 @@ class DeviseOverrides::SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    render json: resource
+    render_resource(resource) do
+      render 'v1/users/show'
+    end
   end
 
   def respond_to_on_destroy

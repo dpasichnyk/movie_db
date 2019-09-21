@@ -2,6 +2,8 @@ import { withRouter, Link } from 'react-router-dom';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
+import ErrorList from './ErrorList';
+
 @inject('authStore')
 @withRouter
 @observer
@@ -21,7 +23,8 @@ export default class Login extends React.Component {
   };
 
   render() {
-    const { values, inProgress } = this.props.authStore;
+
+    const { values, errors, inProgress } = this.props.authStore;
 
     return (
       <div className="auth-page">
@@ -35,6 +38,7 @@ export default class Login extends React.Component {
                 </Link>
               </p>
 
+              <ErrorList errors={errors} />
               <form onSubmit={this.handleSubmitForm}>
                 <fieldset>
                   <fieldset className="form-group">

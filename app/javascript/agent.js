@@ -12,18 +12,23 @@ const API_VERSION = '/v1';
 
 const authHeaders = req => {
     if (commonStore.token) {
-        req.set('authorization', `Token ${commonStore.token}`);
+        req.set('authorization', commonStore.token);
     }
 };
 
 const handleErrors = err => {
     if (err) {
-        errorStore.addError(err.response.body.errors[0]);
-
         if (err.response.status === 401) {
             authStore.logout();
         }
+
+        if (err.response.body.errors) {
+            err.response.body.errors.map(e => {
+                errorStore.addError(e);
+            });
+        }
     }
+
     return err;
 };
 

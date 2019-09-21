@@ -42,8 +42,10 @@ class AuthStore {
     this.errors = undefined;
 
     return agent.Auth.login(this.values.email, this.values.password)
-      .then(({ authorization }) => commonStore.setToken(authorization))
-      .then(data => userStore.pullUser())
+      .then(({ authorization, user }) => {
+        commonStore.setToken(authorization);
+        userStore.setUser(user);
+      })
       .catch(action((err) => {
         this.errors = err.response && err.response.body && err.response.body.errors;
         throw err;
@@ -56,11 +58,10 @@ class AuthStore {
     this.errors = undefined;
 
     return agent.Auth.register(this.values.firstName, this.values.lastName, this.values.email, this.values.password)
-      .then(({ authorization }) => commonStore.setToken(authorization))
-      .then(data => {
-        delete data.authorization
-        userStore.setUser(data);
-      })
+      .then(({ authorization, user }) => {
+        commonStore.setToken(authorization);
+        userStore.setUser(user);
+       })
       .catch(action((err) => {
         this.errors = err.response && err.response.body && err.response.body.errors;
         throw err;

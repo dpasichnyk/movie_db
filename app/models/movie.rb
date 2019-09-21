@@ -23,8 +23,8 @@ class Movie < ApplicationRecord
 
   validates :slug, uniqueness: true, presence: true
   validates :rating_value, inclusion: { in: 0..5 }
-  validates :text, length: { minimum: 200 }, presence: true
-  validates :title, length: { in: 3..250 }, presence: true
+  validates :text, length: { minimum: 200 }
+  validates :title, length: { in: 3..250 }
 
   def self.search(query)
     if query.present?
