@@ -9,6 +9,9 @@ class CommonStore {
     @observable categoriesRegistry = observable.map();
     @observable isLoadingCategories = false;
 
+    @observable ratingsRegistry = observable.map();
+    @observable isLoadingRatings = false;
+
     @observable token = window.localStorage.getItem('jwt');
 
     constructor() {
@@ -28,14 +31,30 @@ class CommonStore {
         return Object.values(this.categoriesRegistry.toJSON());
     };
 
+    @computed get ratings() {
+        return Object.values(this.ratingsRegistry.toJSON());
+    };
+
     @action loadCategories() {
         this.isLoadingCategories = true;
-        return agent.Categories.getAll()
+
+        return agent.Categories.all()
             .then(action(({ categories }) => {
                 this.categoriesRegistry.clear();
                 categories.forEach(category => this.categoriesRegistry.set(category.slug, category));
             }))
             .finally(action(() => { this.isLoadingCategories = false; }))
+    }
+
+    @action loadRatings() {
+        this.isLoadingRatings = true;
+
+        return agent.Ratings.all()
+            .then(action(({ ratings }) => {
+                this.ratingsRegistry.clear();
+                ratings.forEach(rating => this.ratingsRegistry.set(rating.flooredRating, rating));
+            }))
+            .finally(action(() => { this.isLoadingRatings = false; }))
     }
 
     @action setToken(token) {

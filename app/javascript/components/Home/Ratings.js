@@ -2,18 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../LoadingSpinner';
 
-const Categories = props => {
-    const categories = props.categories;
+const Ratings = props => {
+    const ratings = props.ratings;
 
-    if (categories) {
+    if (ratings) {
         return (
             <ul className='nav flex-column'>
                 {
-                    categories.map(category => {
+                    ratings.map(rating => {
                         return (
-                            <li className='nav-item' key={category.slug}>
-                                <Link to='#' onClick={props.onCategoryClick.bind(this, category)} key={category.id}>
-                                    {category.name} ({category.moviesCount})
+                            <li className="nav-item" key={rating.flooredRating}>
+                                <Link to="#" onClick={props.onRatingClick.bind(this, rating)}>
+                                    {rating.flooredRating} Stars ({rating.moviesCount})
                                 </Link>
                             </li>
                         );
@@ -28,4 +28,4 @@ const Categories = props => {
     }
 };
 
-export default Categories;
+export default Ratings;

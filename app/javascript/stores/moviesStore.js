@@ -8,10 +8,29 @@ export class MoviesStore {
     @observable currentPage = 1;
     @observable totalPagesCount = 1;
     @observable searchQuery = "";
+    @observable selectedCategoriesRegistry = observable.map();
+    @observable selectedRatingsRegistry = observable.map();
 
     @computed get movies() {
         return Object.values(this.moviesRegistry.toJSON());
     };
+
+    @computed get selectedCategories() {
+        return Object.values(this.selectedCategoriesRegistry.toJSON());
+    };
+
+    @computed get selectedCategoriesValues() {
+        return this.selectedCategories.map(c => { return(c.slug) }).join(',');
+    };
+
+
+    @computed get selectedRatings() {
+        return Object.values(this.selectedRatingsRegistry.toJSON());
+    };
+
+    @computed get selectedRatingsValues() {
+        return this.selectedRatings.map(r => { return(r.flooredRating) }).join(',');
+    }
 
     clear() {
         this.moviesRegistry.clear();
@@ -24,7 +43,15 @@ export class MoviesStore {
     }
 
     $req() {
-        return agent.Movies.all(this.currentPage, this.searchQuery);
+        return agent.Movies.all(this.currentPage, this.searchQuery, this.selectedCategoriesValues, this.selectedRatingsValues);
+    }
+
+    @action addCategory(category) {
+        this.selectedCategoriesRegistry.set(category.slug, category);
+    }
+
+    @action addRating(rating) {
+        this.selectedRatingsRegistry.set(rating.flooredRating, rating);
     }
 
     @action createMovie(movie) {
@@ -76,6 +103,14 @@ export class MoviesStore {
                 this.totalPagesCount = pages;
             }))
             .finally(action(() => { this.isLoading = false; }));
+    }
+
+    @action removeCategory(category) {
+        this.selectedCategoriesRegistry.delete(category.slug, category);
+    }
+
+    @action removeRating(rating) {
+        this.selectedRatingsRegistry.delete(rating.flooredRating, rating);
     }
 
     @action setSearchQuery(query) {

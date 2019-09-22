@@ -1,9 +1,11 @@
 class V1::MoviesController < ApplicationController
+  require 'movies_query'
+
   before_action :authenticate_user!, only: [:create, :update, :destroy]
 
   def index
-    @movies = Movie.includes(:categories, :user)
-      .search(params[:search])
+    @movies = ::MoviesQuery.new(Movie.all, params[:search], params[:categories], params[:ratings])
+      .perform
       .paginate(page: params[:page])
   end
 

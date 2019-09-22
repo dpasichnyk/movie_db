@@ -9,16 +9,17 @@ const Search = props => {
     return (
         <div className='input-group mb-3'>
             <div className='input-group-prepend'>
-                   <span className='input-group-text'>
-                     <i className='fa fa-search' />
+                <span className='input-group-text'>
+                     <i className='fa fa-search'/>
                    </span>
             </div>
 
-            <input type="text"
-                   className='form-control'
-                   placeholder='Find movies, TV shows and more'
-                   aria-label='Search'
-                   onChange={onSearch}
+            <input
+                type="text"
+                className='form-control'
+                placeholder='Find movies, TV shows and more'
+                aria-label='Search'
+                onChange={onSearch}
             />
         </div>
     );

@@ -20,7 +20,7 @@ const MovieList = props => {
     }
 
     return (
-        <div>
+        <div className='col-md-12'>
             {
                 props.movies.map(movie => {
                     return (

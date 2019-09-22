@@ -1,5 +1,12 @@
 class V1::RatingsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: :create
+
+  def index
+    @ratings = Movie
+      .select('floor(movies.rating_value)::int as floored_rating, count(movies.id) as movies_count')
+      .group(:floored_rating)
+      .order(floored_rating: :desc)
+  end
 
   def create
     @movie = Movie.friendly.find(params[:movie_slug])

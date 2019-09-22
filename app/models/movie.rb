@@ -4,14 +4,8 @@ class Movie < ApplicationRecord
 
   friendly_id :title, use: [:finders, :slugged]
 
-  pg_search_scope :text_search,
-    against: { title: 'A', text: 'D' },
-    associated_against: {
-      categories: {
-        name: 'A',
-        text: 'D'
-      }
-    }
+  # Unable to use search by associations because of the bug. https://github.com/Casecommons/pg_search/issues/416
+  pg_search_scope :text_search, against: { title: 'A', text: 'D' }
 
   self.per_page = 10
 

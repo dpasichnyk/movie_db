@@ -11,9 +11,10 @@ const API_ROOT = 'http://localhost:3000';
 const API_VERSION = '/v1';
 
 const headers = req => {
+    req.set('key-inflection', 'camel');
+
     if (commonStore.token) {
         req.set('authorization', commonStore.token);
-        req.set('key-inflection', 'camel');
     }
 };
 
@@ -42,6 +43,8 @@ const response = ({ body, headers }) => {
 
 const pagination = (p) => `page=${p}`;
 const search = (sq) => sq.length > 0 ? `search=${sq}` : '';
+const categoriesToParams = (c) => c.length > 0 ? `categories=${encodeURIComponent(JSON.stringify(c))}` : '';
+const ratingsToParams = (r) => r.length > 0 ? `ratings=${encodeURIComponent(JSON.stringify(r))}` : '';
 
 const requests = {
     del: (url, apiVersion) =>
@@ -80,12 +83,12 @@ const Auth = {
 };
 
 const Categories = {
-    getAll: () => requests.get('/categories', API_VERSION)
+    all: () => requests.get('/categories', API_VERSION)
 };
 
 const Movies = {
-    all: (page, searchQuery) =>
-        requests.get(`/movies?${pagination(page)}&${search(searchQuery)}`, API_VERSION),
+    all: (page, searchQuery, categories, ratings) =>
+        requests.get(`/movies?${pagination(page)}&${search(searchQuery)}&${categoriesToParams(categories)}&${ratingsToParams(ratings)}`, API_VERSION),
     del: slug =>
         requests.del(`/movies/${slug}`, API_VERSION),
     get: slug =>
@@ -97,6 +100,7 @@ const Movies = {
 };
 
 const Ratings = {
+    all: () => requests.get('/ratings', API_VERSION),
     create: (movieSlug, value) =>
         requests.post('/ratings', { movie_slug: movieSlug, value: value }, API_VERSION)
 };
