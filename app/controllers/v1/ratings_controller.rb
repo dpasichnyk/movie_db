@@ -3,10 +3,10 @@ class V1::RatingsController < ApplicationController
 
   def create
     @movie = Movie.friendly.find(params[:movie_slug])
-    rating = Rating.new(movie: @movie, user: current_user, value: params[:value])
+    rating = Rating.create(movie: @movie, user: current_user, value: params[:value])
 
-    unless rating.save
-      render json: { errors: rating.errors.full_messages }, status: :conflict
+    render_resource(rating, :conflict) do
+      render 'v1/ratings/create'
     end
   end
 end

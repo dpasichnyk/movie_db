@@ -4,6 +4,7 @@ import Search from '../Search';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { debounce } from 'lodash';
+import { Link } from 'react-router-dom';
 
 @inject('moviesStore')
 @observer
@@ -29,6 +30,17 @@ export default class MainView extends React.Component {
         return (
             <div className='col-md-9 mt-3'>
                 <Search onSearch={this.handleSearch} />
+
+                <div className='row'>
+                    <div className='col-md-8'>
+
+                    </div>
+                    <div className='col-md-4'>
+                        <span className='pull-right'>
+                            <Link to='/editor' className='btn btn-outline-primary btn-sm fa fa-plus mb-1' />
+                        </span>
+                    </div>
+                </div>
 
                 <MovieList
                     movies={movies}

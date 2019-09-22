@@ -1,43 +1,38 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
-@inject('moviesStore')
+import Actions from "./Actions";
+
+@inject('moviesStore', 'userStore')
 @observer
 export default class Movie extends React.Component {
 
-  componentDidMount() {
-    const slug = this.props.match.params.id;
-    this.props.moviesStore.loadMovie(slug, { acceptCached: true });
-  }
+    componentDidMount() {
+        const slug = this.props.match.params.id;
+        this.props.moviesStore.loadMovie(slug, {acceptCached: true});
+    }
 
-  render() {
-    const slug = this.props.match.params.id;
-    const movie = this.props.moviesStore.getMovie(slug);
+    handleDeleteMovie = slug => {
+        this.props.moviesStore.deleteMovie(slug)
+            .then(() => this.props.history.replace('/'));
+    };
 
-    if (!movie) return(<h2>Can't load movie</h2>);
+    render() {
+        const { currentUser } = this.props.userStore;
+        const slug = this.props.match.params.id;
+        const movie = this.props.moviesStore.getMovie(slug);
 
-    return (
-        <div className='movie-page'>
-          <div className='container'>
-            <h1>{movie.title}</h1>
-          </div>
+        if (!movie) return (<h2>Can't load movie</h2>);
 
-          <div className='container'>
-            <div className='row'>
-              <div className='col-xs-12'>
-                {
-                  movie.categories.map(category => {
-                    return (
-                        <span className='badge badge-pill badge-primary' key={category.slug}>
-                        <u>{category.name}</u>
-                      </span>
-                    );
-                  })
-                }
-              </div>
+        const canModify = currentUser && currentUser.id === movie.user.id;
+
+        return (
+            <div className='movie-page'>
+                <div className='container'>
+                    <h1>{movie.title}</h1>
+                    <Actions canModify={canModify} movie={movie} onDelete={this.handleDeleteMovie} />
+                </div>
             </div>
-          </div>
-        </div>
-    );
-  }
+        );
+    }
 }

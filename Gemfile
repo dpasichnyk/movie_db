@@ -36,6 +36,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise'
 gem 'devise-jwt'
 
+# Camelcase/underscore parameter keys.
+gem 'olive_branch'
+
 gem 'friendly_id', '~> 5.2.4'
 gem 'pg_search'
 gem 'rack-cors'

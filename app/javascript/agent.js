@@ -10,9 +10,10 @@ const superagent = superagentPromise(_superagent, global.Promise);
 const API_ROOT = 'http://localhost:3000';
 const API_VERSION = '/v1';
 
-const authHeaders = req => {
+const headers = req => {
     if (commonStore.token) {
         req.set('authorization', commonStore.token);
+        req.set('key-inflection', 'camel');
     }
 };
 
@@ -32,7 +33,12 @@ const handleErrors = err => {
     return err;
 };
 
-const response = res => ({ authorization: res.headers.authorization, ...res.body });
+const response = ({ body, headers }) => {
+    const authToken = headers.authorization;
+    if (authToken) commonStore.setToken(authToken);
+
+    return body;
+};
 
 const pagination = (p) => `page=${p}`;
 const search = (sq) => sq.length > 0 ? `search=${sq}` : '';
@@ -41,25 +47,25 @@ const requests = {
     del: (url, apiVersion) =>
         superagent
             .del(`${API_ROOT}${apiVersion}${url}`)
-            .use(authHeaders)
+            .use(headers)
             .end(handleErrors)
             .then(response),
     get: (url, apiVersion='') =>
         superagent
             .get(`${API_ROOT}${apiVersion}${url}`)
-            .use(authHeaders)
+            .use(headers)
             .end(handleErrors)
             .then(response),
     post: (url, body, apiVersion='') =>
         superagent
             .post(`${API_ROOT}${apiVersion}${url}`, body)
-            .use(authHeaders)
+            .use(headers)
             .end(handleErrors)
             .then(response),
     put: (url, body, apiVersion='') =>
         superagent
             .put(`${API_ROOT}${apiVersion}${url}`, body)
-            .use(authHeaders)
+            .use(headers)
             .end(handleErrors)
             .then(response),
 };

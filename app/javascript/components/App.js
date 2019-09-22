@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
+import MovieEditor from './MovieEditor';
 import Error from './Error';
 import Header from './Header';
 import Home from './Home';
@@ -36,6 +37,7 @@ export default class App extends React.Component {
                     <Header/>
                     <Error/>
                     <Switch>
+                        <Route path='/editor/:slug?' component={MovieEditor} />
                         <Route path='/login' component={Login} />
                         <Route path='/register' component={Register} />
                         <Route path='/movie/:id' component={Movie}/>

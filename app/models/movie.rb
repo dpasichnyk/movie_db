@@ -5,11 +5,11 @@ class Movie < ApplicationRecord
   friendly_id :title, use: [:finders, :slugged]
 
   pg_search_scope :text_search,
-    against: { title: 'A', text: 'B' },
+    against: { title: 'A', text: 'D' },
     associated_against: {
       categories: {
         name: 'A',
-        text: 'B'
+        text: 'D'
       }
     }
 

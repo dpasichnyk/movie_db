@@ -7,11 +7,12 @@ import promiseFinally from 'promise.prototype.finally';
 
 import authStore from '../stores/authStore';
 import commonStore from '../stores/commonStore';
+import editorStore from '../stores/editorStore';
 import errorStore from '../stores/errorStore';
 import moviesStore from '../stores/moviesStore';
 import userStore from '../stores/userStore';
 
-const stores = { authStore, commonStore, errorStore, moviesStore, userStore };
+const stores = { authStore, commonStore, editorStore, errorStore, moviesStore, userStore };
 
 promiseFinally.shim();
 

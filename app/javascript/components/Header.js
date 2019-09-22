@@ -39,11 +39,6 @@ const LoggedInView = props => {
                     </Link>
                 </li>
                 <li className='nav-item'>
-                    <Link to='/profile' className='nav-link'>
-                        Profile
-                    </Link>
-                </li>
-                <li className='nav-item'>
                     <Link to='#' className='nav-link' onClick={props.onClickLogout}>
                         Log out
                     </Link>

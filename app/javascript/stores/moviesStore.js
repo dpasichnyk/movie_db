@@ -27,6 +27,31 @@ export class MoviesStore {
         return agent.Movies.all(this.currentPage, this.searchQuery);
     }
 
+    @action createMovie(movie) {
+        return agent.Movies.create(movie)
+            .then(( movie ) => {
+                this.moviesRegistry.set(movie.slug, movie);
+                return movie;
+            })
+    }
+
+    @action createRating(slug, value) {
+        return agent.Ratings.create(slug, value)
+            .then(() => this.loadMovie(slug))
+            .catch(action(err => {
+                if (err.status === 409) {
+                    this.loadMovies();
+                }
+            }))
+            .finally(action(() => { this.isLoading = false; }));
+    }
+
+    @action deleteMovie(slug) {
+        this.moviesRegistry.delete(slug);
+        return agent.Movies.del(slug)
+            .catch(action(err => { this.loadMovies(); throw err; }));
+    }
+
     @action loadMovie(slug) {
         const movie = this.getMovie(slug);
         if (movie) return Promise.resolve(movie);
@@ -62,20 +87,9 @@ export class MoviesStore {
         this.currentPage = page;
     }
 
-    @action createRating(slug, value) {
-        return agent.Ratings.create(slug, value)
-            .then(() => this.loadMovie(slug))
-            .catch(action(err => {
-                if (err.status === 409) {
-                    this.loadMovies();
-                }
-            }))
-            .finally(action(() => { this.isLoading = false; }));
-    }
-
     @action updateMovie(data) {
-        return agent.Movie.update(data)
-            .then(({ movie }) => {
+        return agent.Movies.update(data)
+            .then(movie => {
                 this.moviesRegistry.set(movie.slug, movie);
                 return movie;
             })

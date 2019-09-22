@@ -1,18 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import Rating from 'react-rating';
 
+import Actions from './Movie/Actions'
+
 @inject('moviesStore', 'userStore')
+@withRouter
 @observer
 export default class MoviePreview extends React.Component {
 
-    onRatingChange = (slug, value) => {
+    handleRatingChange = (slug, value) => {
         this.props.moviesStore.createRating(slug, value)
     };
 
+    handleDeleteMovie = slug => {
+        this.props.moviesStore.deleteMovie(slug)
+            .then(() => this.props.history.replace('/'));
+    };
+
     render() {
+        const { currentUser } = this.props.userStore;
         const { movie } = this.props;
+
+        const canModify = currentUser && currentUser.id === movie.user.id;
 
         return (
             <div className='card mb-3 movie-preview'>
@@ -22,18 +33,19 @@ export default class MoviePreview extends React.Component {
                             <Link to={`/movie/${movie.slug}`} className='preview-link'>
                                 <h5>{movie.title}</h5>
                             </Link>
+
+                            <span className='small font-italic'>{new Date(movie.createdAt).toDateString()}, by <b>{movie.user.name}</b></span>
                         </div>
 
                         <div className='col col-md-4'>
-                            <div className='well well-sm pull-right'>
+                            <div className='pull-right'>
                                 <Rating
-                                    initialRating={movie.rating_value}
-                                    onChange={this.onRatingChange.bind(this, movie.slug)}
+                                    initialRating={movie.ratingValue}
+                                    onChange={this.handleRatingChange.bind(this, movie.slug)}
                                     readonly={!this.props.userStore.currentUser}
                                     emptySymbol='fa fa-star-o regular'
                                     fullSymbol='fa fa-star solid'
                                 />
-                                <pre>{new Date(movie.created_at).toDateString()}, by <b>{movie.user.name}</b></pre>
                             </div>
                         </div>
                     </div>
@@ -41,6 +53,14 @@ export default class MoviePreview extends React.Component {
 
                 <div className='card-body'>
                     <p className='card-text'>{movie.text.substr(0, 100) + '...'}</p>
+
+                    <div className='pull-right'>
+                        <Actions
+                            canModify={canModify}
+                            movie={movie}
+                            onDelete={this.handleDeleteMovie.bind(this)}
+                        />
+                    </div>
                 </div>
             </div>
 
