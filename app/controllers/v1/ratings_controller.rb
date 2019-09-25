@@ -3,10 +3,9 @@ class V1::RatingsController < ApplicationController
 
   def index
     @ratings = Movie
-      .select('floor(movies.rating_value)::int as floored_rating, count(movies.id) as movies_count')
+      .select('FLOOR(movies.rating_value)::integer AS floored_rating, COUNT(movies.id) AS movies_count')
       .group(:floored_rating)
-      .distinct('movies.id')
-      .order("floored_rating asc")
+      .order('floored_rating DESC')
   end
 
   def create

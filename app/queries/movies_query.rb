@@ -39,7 +39,7 @@ class MoviesQuery
   end
 
   def with_search_within_ratings
-    @_relation = cleaned_ratings.blank? ? _relation : _relation.where('floor(movies.rating_value)::int IN (?)', cleaned_ratings)
+    @_relation = cleaned_ratings.blank? ? _relation : _relation.where('FLOOR(movies.rating_value)::int IN (?)', cleaned_ratings)
   end
 
   def with_users_and_categories

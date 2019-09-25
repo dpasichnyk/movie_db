@@ -32,7 +32,7 @@ class CommonStore {
     };
 
     @computed get ratings() {
-        return Object.values(this.ratingsRegistry.toJSON());
+        return Object.values(this.ratingsRegistry.toJSON()).sort((a, b) => b.flooredRating - a.flooredRating);
     };
 
     @action loadCategories() {
