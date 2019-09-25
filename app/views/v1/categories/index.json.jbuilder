@@ -1,1 +1,1 @@
-json.categories @categories, :id, :name, :slug, :text, :movies_count
+json.categories @categories, :id, :name, :slug, :movies_count

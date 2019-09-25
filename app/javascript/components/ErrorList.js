@@ -1,6 +1,6 @@
 import React from 'react';
 
-class ErrorsList extends React.Component {
+class ErrorList extends React.Component {
     render() {
         const errors = this.props.errors;
 
@@ -21,4 +21,4 @@ class ErrorsList extends React.Component {
     }
 }
 
-export default ErrorsList;
+export default ErrorList;

@@ -5,7 +5,8 @@ class V1::RatingsController < ApplicationController
     @ratings = Movie
       .select('floor(movies.rating_value)::int as floored_rating, count(movies.id) as movies_count')
       .group(:floored_rating)
-      .order(floored_rating: :desc)
+      .distinct('movies.id')
+      .order("floored_rating asc")
   end
 
   def create

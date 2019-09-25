@@ -7,7 +7,7 @@ import errorStore from './stores/errorStore';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-const API_ROOT = 'http://localhost:3000';
+const API_ROOT = `${process.env.HOST || 'http://localhost:3000'}`;
 const API_VERSION = '/v1';
 
 const headers = req => {

@@ -1,16 +1,16 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
+  host: <%= ENV.fetch("DATABASE_URL") { "localhost" } %>
   pool: 5
   reaping_frequency: 30
   timeout: 5000
-  username: docker
-  password: docker
 
 development:
   <<: *default
   database: movie_db_development
+  username: docker
+  password: docker
 
 production:
   <<: *default
@@ -19,3 +19,5 @@ production:
 test:
   <<: *default
   database: movie_db_test
+  username: docker
+  password: docker

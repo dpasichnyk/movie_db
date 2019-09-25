@@ -35,7 +35,7 @@ class MoviesQuery
   end
 
   def with_search_within_categories
-    @_relation = cleaned_categories.blank? ? _relation : _relation.where('categories_movies.slug IN (?)', cleaned_categories)
+    @_relation = cleaned_categories.blank? ? _relation : _relation.where('categories.slug IN (?)', cleaned_categories)
   end
 
   def with_search_within_ratings

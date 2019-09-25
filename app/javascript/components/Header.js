@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
+import PopupError from './PopupError';
+
 const LoggedOutView = props => {
     if (!props.currentUser) {
         return (
@@ -33,6 +35,7 @@ const LoggedInView = props => {
     if (props.currentUser) {
         return (
             <ul className='nav navbar-nav pull-xs-right'>
+                <PopupError/>
                 <li className='nav-item'>
                     <Link to='/' className='nav-link'>
                         Home

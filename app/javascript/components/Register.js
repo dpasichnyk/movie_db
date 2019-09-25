@@ -88,7 +88,7 @@ export default class Register extends React.Component {
                     type="submit"
                     disabled={inProgress}
                   >
-                    Sign in
+                    Sign up
                   </button>
 
                 </fieldset>

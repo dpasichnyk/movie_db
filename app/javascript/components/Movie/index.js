@@ -30,6 +30,7 @@ export default class Movie extends React.Component {
             <div className='movie-page'>
                 <div className='container'>
                     <h1>{movie.title}</h1>
+                    <p>{movie.text}</p>
                     <Actions canModify={canModify} movie={movie} onDelete={this.handleDeleteMovie} />
                 </div>
             </div>

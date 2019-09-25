@@ -3,9 +3,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { inject, observer } from "mobx-react";
 
+import 'react-toastify/dist/ReactToastify.min.css';
+
 @inject('errorStore')
 @observer
-export default class Error extends React.Component {
+export default class PopupError extends React.Component {
 
     render() {
         if (this.props.errorStore.errors.length === 0) return null;

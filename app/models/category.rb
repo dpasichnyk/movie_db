@@ -10,7 +10,7 @@ class Category < ApplicationRecord
 
   scope :with_movies_counts, -> do
     joins(:movies)
-    .select('categories.*, count(movies.id) as movies_count')
+    .select('categories.*, count(DISTINCT movies.id) as movies_count')
     .group(:id)
     .order(movies_count: :desc, created_at: :desc)
   end
